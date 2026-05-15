@@ -424,6 +424,7 @@ pub struct WindowSettings {
     decorated: bool,
     controllers: bool,
     transparent: bool,
+    icon: Option<Icon>,
 }
 
 impl WindowSettings {
@@ -455,6 +456,7 @@ impl WindowSettings {
             decorated: true,
             controllers: true,
             transparent: false,
+            icon: None,
         }
     }
 
@@ -490,6 +492,26 @@ impl WindowSettings {
     /// so that it can be used in method chaining.
     pub fn title(mut self, value: String) -> Self {
         self.set_title(value);
+        self
+    }
+
+    /// Gets the icon of built windows.
+    pub fn get_icon(&self) -> Option<Icon> {
+        self.icon.clone()
+    }
+
+    /// Sets the icon of built windows.
+    pub fn set_icon(&mut self, value: Icon) {
+        self.icon = Some(value);
+    }
+
+    /// Sets the icon of built windows.
+    ///
+    /// This method moves the current window data,
+    /// unlike [`set_icon()`](#method.set_icon),
+    /// so that it can be used in method chaining.
+    pub fn icon(mut self, value: Icon) -> Self {
+        self.set_icon(value);
         self
     }
 
@@ -825,4 +847,15 @@ impl WindowSettings {
         self.set_transparent(value);
         self
     }
+}
+
+/// An icon for a window
+#[derive(Clone, Debug)]
+pub struct Icon {
+    /// Width
+    pub w: u32,
+    /// Height
+    pub h: u32,
+    /// Pixel array
+    pub pixels: Vec<u8>,
 }
